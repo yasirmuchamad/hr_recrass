@@ -1,33 +1,33 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
 # Create your models here.
+    
+LIST_GENDER = (
+    ('Perempuan', 'Perempuan'),
+    ('Laki-laki', 'Laki-laki')
+)
 
- LIST_GENDER = (
-        ('Perempuan', 'Perempuan'),
-        ('Laki-laki', 'Laki-laki')
-    )
+LIST_EXP = (
+    ('Ya', 'Ya'),
+    ('Tidak', 'Tidak')
+)
 
-    LIST_EXP = (
-        ('Ya', 'Ya'),
-        ('Tidak', 'Tidak')
-    )
+LIST_PENDIDIKAN = (
+    ('SD/MI', 'SD/MI'),
+    ('SMP/MTS', 'SMP/MTS'),
+    ('SMA/SMK/MA', 'SMA/SMK/MA'),
+    ('D3', 'D3'),
+    ('D4', 'D4'),
+    ('S1', 'S1'),
+    ('S2', 'S2'),
+    ('S3', 'S3')
+)
 
-    LIST_PENDIDIKAN = (
-        ('SD/MI', 'SD/MI'),
-        ('SMP/MTS', 'SMP/MTS'),
-        ('SMA/SMK/MA', 'SMA/SMK/MA'),
-        ('D3', 'D3'),
-        ('D4', 'D4'),
-        ('S1', 'S1'),
-        ('S2', 'S2'),
-        ('S3', 'S3')
-    )
-
-    LIST_HASIL_TEST = (
-        ('Baik', 'Baik'),
-        ('Cukup', 'Cukup'),
-        ('Kurang', 'Kurang')
-    )
+LIST_HASIL_TEST = (
+    ('Baik', 'Baik'),
+    ('Cukup', 'Cukup'),
+    ('Kurang', 'Kurang')
+)
 
 class Departemen(models.Model):
     """Model definition for Departemen."""
