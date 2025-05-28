@@ -121,6 +121,7 @@ class Pelamar(models.Model):
                         default = 'Tidak'
                     )
     keahlian    = models.CharField(max_length = 32)
+    perteker    = models.ForeignKey(Perteker, on_delete = models.CASCADE, null = True, blank = True)
     alamat      = models.CharField(max_length = 100)
     phone       = models.CharField(max_length = 16)
     tanggal     = models.DateTimeField(auto_now_add = True)
