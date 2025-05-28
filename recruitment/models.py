@@ -2,6 +2,33 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
 # Create your models here.
 
+ LIST_GENDER = (
+        ('Perempuan', 'Perempuan'),
+        ('Laki-laki', 'Laki-laki')
+    )
+
+    LIST_EXP = (
+        ('Ya', 'Ya'),
+        ('Tidak', 'Tidak')
+    )
+
+    LIST_PENDIDIKAN = (
+        ('SD/MI', 'SD/MI'),
+        ('SMP/MTS', 'SMP/MTS'),
+        ('SMA/SMK/MA', 'SMA/SMK/MA'),
+        ('D3', 'D3'),
+        ('D4', 'D4'),
+        ('S1', 'S1'),
+        ('S2', 'S2'),
+        ('S3', 'S3')
+    )
+
+    LIST_HASIL_TEST = (
+        ('Baik', 'Baik'),
+        ('Cukup', 'Cukup'),
+        ('Kurang', 'Kurang')
+    )
+
 class Departemen(models.Model):
     """Model definition for Departemen."""
 
@@ -36,27 +63,7 @@ class CustomUser(AbstractUser):
 
 class Perteker(models.Model):
     """Model definition for Perteker."""
-    LIST_GENDER = (
-        ('Perempuan', 'Perempuan'),
-        ('Laki-laki', 'Laki-laki')
-    )
-
-    LIST_EXP = (
-        ('Ya', 'Ya'),
-        ('Tidak', 'Tidak')
-    )
-
-    LIST_PENDIDIKAN = (
-        ('SD/MI', 'SD/MI'),
-        ('SMP/MTS', 'SMP/MTS'),
-        ('SMA/SMK/MA', 'SMA/SMK/MA'),
-        ('D3', 'D3'),
-        ('D4', 'D4'),
-        ('S1', 'S1'),
-        ('S2', 'S2'),
-        ('S3', 'S3')
-    )
-
+   
     # TODO: Define fields here
     user            = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
     gender          = models.CharField(
@@ -89,3 +96,70 @@ class Perteker(models.Model):
     def __str__(self):
         """Unicode representation of Perteker."""
         return f"{self.user.name}-{self.open_poss}-{self.batas_usia}-{self.pendidikan_min}-{self.pengalaman}"
+
+class Pelamar(models.Model):
+    """Model definition for Pelamar."""
+
+    # TODO: Define fields here
+    nama        = models.CharField(max_length = 64)
+    gender      = models.CharField(
+                        max_length = 12,
+                        choices = LIST_GENDER,
+                        default = 'Laki-laki'
+                    )
+    usia        = models.IntegerField()
+    pendidikan  = models.CharField(
+                        max_length = 12,
+                        choices = LIST_PENDIDIKAN,
+                        default = 'SMA/SMK/MA'
+                    )
+    jurusan     = models.CharField(max_length = 64)
+    almamater   = models.CharField(max_length = 64)
+    pengalaman  = models.CharField(
+                        max_length = 8,
+                        choices = LIST_EXP,
+                        default = 'Tidak'
+                    )
+    keahlian    = models.CharField(max_length = 32)
+    alamat      = models.CharField(max_length = 100)
+    phone       = models.CharField(max_length = 16)
+    tanggal     = models.DateTimeField(auto_now_add = True)
+    
+    class Meta:
+        """Meta definition for Pelamar."""
+
+        verbose_name = 'Pelamar'
+        verbose_name_plural = 'Pelamars'
+
+    def __str__(self):
+        """Unicode representation of Pelamar."""
+        return f"{self.nama}-{self.gender}-{self.usia}-{self.pendidikan}-{self.pengalaman}"
+
+class Seleksi(models.Model):
+    """Model definition for Seleksi."""
+
+    # TODO: Define fields here
+    pelamar         = models.ForeignKey(Pelamar, on_delete = models.CASCADE)
+    nilai_psikotest = models.CharField(
+                            max_length = 8,
+                            choices = LIST_HASIL_TEST,
+                            blank = True
+                        )
+    nilai_interview = models.CharField(
+                            max_length = 8,
+                            choices = LIST_HASIL_TEST,
+                            blank = True
+                        )
+    status          = models.CharField(max_length = 8, blank = True)
+    catatan         = models.CharField(max_length = 64, blank = True)
+    tanggal         = models.DateField(auto_now = True)
+
+    class Meta:
+        """Meta definition for Seleksi."""
+
+        verbose_name = 'Seleksi'
+        verbose_name_plural = 'Seleksis'
+
+    def __str__(self):
+        """Unicode representation of Seleksi."""
+        return f"{self.pelamar.nama}-{self.nilai_psikotest}{self.nilai_interview}-{self.status}"
