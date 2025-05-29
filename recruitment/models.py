@@ -2,6 +2,12 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
 # Create your models here.
     
+LIST_GENDER_PERTEKER = (
+    ('Perempuan', 'Perempuan'),
+    ('Laki-laki', 'Laki-laki'),
+    ('Laki-laki/Perempuan', 'Laki-laki/Perempuan')
+)
+
 LIST_GENDER = (
     ('Perempuan', 'Perempuan'),
     ('Laki-laki', 'Laki-laki')
@@ -67,8 +73,8 @@ class Perteker(models.Model):
     # TODO: Define fields here
     user            = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
     gender          = models.CharField(
-                        max_length = 12,
-                        choices = LIST_GENDER,
+                        max_length = 20,
+                        choices = LIST_GENDER_PERTEKER,
                         default = 'Laki-laki'
                         )
     open_poss       = models.CharField(max_length = 32)
@@ -95,7 +101,7 @@ class Perteker(models.Model):
 
     def __str__(self):
         """Unicode representation of Perteker."""
-        return f"{self.user.name}-{self.open_poss}-{self.batas_usia}-{self.pendidikan_min}-{self.pengalaman}"
+        return f"{self.user.username}-{self.open_poss}-{self.batas_usia}-{self.pendidikan_min}-{self.pengalaman}"
 
 class Pelamar(models.Model):
     """Model definition for Pelamar."""

@@ -26,6 +26,57 @@ def preprocess_data(df):
 
     return df
 
-    
+
 def listSeleksi(request):
-    pass
+    # load model dan encoder yang sudah dilatih
+    model_path = os.path.join(settings.BASE_DIR, 'static', 'model_cakar.joblib')
+    encoders_path = os.path.join(settings.BASE_DIR, 'static', 'encoders_cakar.joblib')
+    le_target_path = os.path.join(settings.BASE_DIR, 'static', 'le_target_cakar.joblib')
+
+    model = joblib.load(model_path)
+    encoders = joblib.load(encoders_path)
+    le_target = joblib.load(le_target_path)
+
+    # penampungan data
+    all_data = []
+
+    # load data dari database
+    for obj in Seleksi.objects.all():
+        record = {
+            'id'        : obj.id,
+            'Nama'      : obj.pelamar.nama,
+            'Gender'    : obj.pelamar.gender,
+            'Pendidikan': obj.pelamar.pendidikan,
+            'Pengalaman': obj.pelamar.pengalaman,
+            'Usia'      : obj.pelamar.usia,
+            'Psikotest' : obj.nilai_psikotest,
+            'Interview' : obj.nilai_interview,
+            'Status'    : obj.status,
+            'Prediksi'  : 'Belum lengkap'
+        }
+
+        if all([obj.pelamar.gender, obj.pelamar.pendidikan, obj.pelamar.pengalaman, obj.pelamar.usia, obj.nilai_psikotest, obj.nilai_interview]):
+            # lakukan prediksi untuk data yang sudah lengkap
+            # record = normalisasi_nilai(record)
+            df_row  = pd.DataFrame([record]).copy()
+            # preprocessing data
+            df_row  = preprocess_data(df_row)
+            fitur   = ['Gender', 'Pendidikan', 'Pengalaman', 'Usia', 'Psikotest', 'Interview']
+            for col in fitur:
+                df_row[col] = encoders[col].transform(df_row[col])
+            X   = df_row[fitur]
+            pred = model.predict(X)
+            hasil = le_target.inverse_transform(pred)
+            record['Prediksi'] = hasil[0]
+        
+        all_data.append(record)
+
+    context = {
+        'data'   : all_data,
+    }
+    return render(request, 'recruitment/list_seleksi.html', context)
+
+
+
+
+    
