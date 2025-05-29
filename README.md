@@ -1,2 +1,2 @@
 # hr_recrass
-web appliccation HR Recruitment-Assesment
+web application for HR Recruitment-Assesment with prediction feature using Naive Bayes Classification
