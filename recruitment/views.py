@@ -2,13 +2,22 @@ from django.shortcuts import render
 from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes  import CategoricalNB
 from django.conf import settings
-from .models import Pelamar, Seleksi
+from .models import Pelamar, Seleksi, Departemen
 import pandas as pd
 import json
 import os
 import joblib
 
 # Create your views here.
+def listDepartemen(request):
+    departemen = Departemen.objects.all()
+
+    context = {
+        'dept' : departemen
+    }
+
+    return render(request, 'recruitment/departemen/list_departemen.html', context)
+
 def preprocess_data(df):
     # Kategorisasi Pendidikan
     def kategori_pendidikan(p):
@@ -29,9 +38,9 @@ def preprocess_data(df):
 
 def listSeleksi(request):
     # load model dan encoder yang sudah dilatih
-    model_path = os.path.join(settings.BASE_DIR, 'static', 'model_cakar.joblib')
-    encoders_path = os.path.join(settings.BASE_DIR, 'static', 'encoders_cakar.joblib')
-    le_target_path = os.path.join(settings.BASE_DIR, 'static', 'le_target_cakar.joblib')
+    model_path = os.path.join(settings.BASE_DIR, 'recruitment/static', 'model_cakar.joblib')
+    encoders_path = os.path.join(settings.BASE_DIR, 'recruitment/static', 'encoders_cakar.joblib')
+    le_target_path = os.path.join(settings.BASE_DIR, 'recruitment/static', 'le_target_cakar.joblib')
 
     model = joblib.load(model_path)
     encoders = joblib.load(encoders_path)
@@ -72,9 +81,10 @@ def listSeleksi(request):
         all_data.append(record)
 
     context = {
-        'data'   : all_data,
+        'title'     : 'List Seleksi',
+        'data'      : all_data,
     }
-    return render(request, 'recruitment/list_seleksi.html', context)
+    return render(request, 'seleksi/list_seleksi.html', context)
 
 
 

@@ -1,0 +1,27 @@
+<h2>Hasil Klasifikasi dari JSON</h2>
+<table border="1">
+  <tr>
+    <th>Nama</th>
+    <th>Gender</th>
+    <th>Pendidikan</th>
+    <th>Pengalaman</th>
+    <th>Usia</th>
+    <th>Psikotest</th>
+    <th>Interview</th>
+    <th>Rekom</th>
+    <th>Status</th>
+  </tr>
+  {% for d in dept %}
+  <tr>
+    <td>{{ c.Nama }}</td>
+    <td>{{ c.Gender }}</td>
+    <td>{{ c.Pendidikan }}</td>
+    <td>{{ c.Pengalaman }}</td>
+    <td>{{ c.Usia }}</td>
+    <td>{{ c.Psikotest }}</td>
+    <td>{{ c.Interview }}</td>
+    <td><strong>{{ c.Prediksi|upper }}</strong></td>
+    <td>{{ c.Status }}</td>
+  </tr>
+  {% endfor %}
+</table>
