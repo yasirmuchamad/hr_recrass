@@ -31,7 +31,7 @@
     <td>{{ p.alamat }}</td>
     <td>{{ p.phone }}</td>
     <td>
-      <a href="">Update</a>
+      <a href="{% url 'recruitment:update_pelamar' p.id %}">Update</a>
        | 
       <a href="">Delete</a>
   </td>

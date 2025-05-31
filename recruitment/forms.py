@@ -11,3 +11,13 @@ class DepartemenForm(forms.ModelForm):
         model = Departemen
         fields = '__all__'
 
+
+class PelamarForm(forms.ModelForm):
+    """Form definition for Departemen."""
+
+    class Meta:
+        """Meta definition for Departemenform."""
+
+        model = Pelamar
+        fields = '__all__'
+

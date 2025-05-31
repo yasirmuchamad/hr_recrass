@@ -76,7 +76,7 @@ def createPelamar(request):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-        return redirect('pelamar:list_pelamar')
+        return redirect('recruitment:list_pelamar')
     context = {
         'title'     : 'Input Pelamar',
         'subtitle'  : 'HR-Recruitment & Assesment',
@@ -87,7 +87,17 @@ def createPelamar(request):
 def updatePelamar(request, update_id):
     update = Pelamar.objects.get(id=update_id)
     data = {
-        'nama'  : update.nama,
+        'nama'      : update.nama,
+        'gender'    : update.gender,
+        'usia'      : update.usia,
+        'pendidikan': update.pendidikan,
+        'jurusan'   : update.jurusan,
+        'alamamater': update.almamater,
+        'pengalaman': update.pengalaman,
+        'keahlian'  : update.keahlian,
+        'pertaker'  : update.perteker,
+        'alamat'    : update.alamat,
+        'phone'     : update.phone,
     }
     form = PelamarForm(request.POST or None, initial=data, instance=update)
 
