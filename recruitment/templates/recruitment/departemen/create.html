@@ -9,7 +9,7 @@
     <h2>{{ title }}</h2>
     <form action="" method="post">
         {% csrf_token %}
-        <label for="Nama"></label> : {{ forms.nama }}
+        <label for="Nama">Nama Departemen : </label> {{ forms.nama }}
         <input type="submit" value="Save">
     </form>
 </body>

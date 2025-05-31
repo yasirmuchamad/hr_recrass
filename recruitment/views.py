@@ -26,13 +26,37 @@ def createDepartemen(request):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-        return redirect('departemen:list_departemen')
+        return redirect('recruitment:list_departemen')
     context = {
         'title'     : 'Tambah Departemen',
         'subtitle'  : 'HR-Recruitment & Assesment',
         'forms'     : form
     }
     return render(request, 'recruitment/departemen/create.html', context)
+
+def updateDepartemen(request, update_id):
+    update = Departemen.objects.get(id=update_id)
+    data = {
+        'nama'  : update.nama,
+    }
+    form = DepartemenForm(request.POST or None, initial=data, instance=update)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+        return redirect('recruitment:list_departemen')
+
+    context = {
+        'title'     : 'Update Departemen',
+        'subtitle'  : 'HR-Recruitment & Assesment',
+        'forms'     : form,
+    }
+
+    return render(request, 'recruitment/departemen/create.html', context)
+
+def deleteDepartemen(request, delete_id):
+    Departemen.objects.filter(id = delete_id).delete()
+    return redirect('recruitmens:list_departemen')
 
 # --------------------------------------------------------------------------------------------------------------
 
@@ -42,10 +66,49 @@ def listPelamar(request):
     context = {
         'title'     : 'Pelamar',
         'subtitle'  : 'HR-Recruitment & Assesment',
-        'pelamars' : pelamar
+        'pelamars'  : pelamar
     }
 
     return render(request, 'recruitment/pelamar/list.html', context)
+
+def createPelamar(request):
+    form = PelamarForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+        return redirect('pelamar:list_pelamar')
+    context = {
+        'title'     : 'Input Pelamar',
+        'subtitle'  : 'HR-Recruitment & Assesment',
+        'forms'     : form
+    }
+    return render(request, 'recruitment/pelamar/create.html', context)
+
+def updatePelamar(request, update_id):
+    update = Pelamar.objects.get(id=update_id)
+    data = {
+        'nama'  : update.nama,
+    }
+    form = PelamarForm(request.POST or None, initial=data, instance=update)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+        return redirect('recruitment:list_pelamar')
+
+    context = {
+        'title'     : 'Update Pelamar',
+        'subtitle'  : 'HR-Recruitment & Assesment',
+        'forms'     : form,
+    }
+
+    return render(request, 'recruitment/pelamar/create.html', context)
+
+def deletePelamar(request, delete_id):
+    Pelamar.objects.filter(id = delete_id).delete()
+    return redirect('recruitmens:list_pelamar')
+
+# ---------------------------------------------------------------------------------------------
 
 def listPerteker(request):
     perteker = Perteker.objects.all()

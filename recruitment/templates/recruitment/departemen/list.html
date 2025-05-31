@@ -11,7 +11,9 @@
   <tr>
     <td>{{ d.nama }}</td>
     <td>
-      <a href="">Update</a> | <a href="">Delete</a>
+      <a href="{% url 'recruitment:update_departemen' d.id %}">Update</a>
+       | 
+      <a href="{% url 'recruitment:delete_departemen' d.id %}">Delete</a>
   </td>
   </tr>
   {% endfor %}

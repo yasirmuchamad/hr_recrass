@@ -31,8 +31,11 @@
     <td>{{ p.alamat }}</td>
     <td>{{ p.phone }}</td>
     <td>
-        <a href="">Update</a> | <a href="">Delete</a>
-    </td>
+      <a href="">Update</a>
+       | 
+      <a href="">Delete</a>
+  </td>
   </tr>
   {% endfor %}
 </table>
+<a href="{% url 'recruitment:create_pelamar' %}">Add</a>
