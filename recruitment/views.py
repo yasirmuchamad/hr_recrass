@@ -13,10 +13,24 @@ def listDepartemen(request):
     departemen = Departemen.objects.all()
 
     context = {
-        'dept' : departemen
+        'depts' : departemen
     }
 
     return render(request, 'recruitment/departemen/list_departemen.html', context)
+
+def listPelamar(request):
+    pelamar = Pelamar.objects.all()
+    
+    context = {
+        'pelamars' : pelamar
+    }
+
+def listPerteker(request):
+    perteker = Perteker.objects.all()
+    
+    context = {
+        'pertekers' : perteker
+    }
 
 def preprocess_data(df):
     # Kategorisasi Pendidikan
