@@ -7,11 +7,10 @@
 </head>
 <body>
     <h2>{{ title }}</h2>
-    {% csrf_token %}
-    {{ forms.as_p }}
-    <!-- <form action="" method="Post">
-        
-            
-    </form> -->
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for="Nama"></label> : {{ forms.nama }}
+        <input type="submit" value="Save">
+    </form>
 </body>
 </html>

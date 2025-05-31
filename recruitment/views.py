@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes  import CategoricalNB
 from django.conf import settings
@@ -23,7 +23,7 @@ def listDepartemen(request):
 
 def createDepartemen(request):
     form = DepartemenForm(request.POST or None)
-    if request.method == 'Post':
+    if request.method == 'POST':
         if form.is_valid():
             form.save()
         return redirect('departemen:list_departemen')
