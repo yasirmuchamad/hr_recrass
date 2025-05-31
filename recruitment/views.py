@@ -25,12 +25,16 @@ def listPelamar(request):
         'pelamars' : pelamar
     }
 
+    return render(request, 'recruitment/pelamar/list_pelamar.html', context)
+
 def listPerteker(request):
     perteker = Perteker.objects.all()
     
     context = {
         'pertekers' : perteker
     }
+
+    return render(request, 'recruitment/perteker/list_perteker.html', context)
 
 def preprocess_data(df):
     # Kategorisasi Pendidikan
@@ -98,7 +102,7 @@ def listSeleksi(request):
         'title'     : 'List Seleksi',
         'data'      : all_data,
     }
-    return render(request, 'seleksi/list_seleksi.html', context)
+    return render(request, 'recruitment/seleksi/list_seleksi.html', context)
 
 
 
