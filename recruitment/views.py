@@ -2,7 +2,7 @@ from django.shortcuts import render
 from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes  import CategoricalNB
 from django.conf import settings
-from .models import Pelamar, Seleksi, Departemen
+from .models import Pelamar, Seleksi, Departemen, Perteker
 import pandas as pd
 import json
 import os
@@ -16,7 +16,7 @@ def listDepartemen(request):
         'depts' : departemen
     }
 
-    return render(request, 'recruitment/departemen/list_departemen.html', context)
+    return render(request, 'recruitment/departemen/list.html', context)
 
 def listPelamar(request):
     pelamar = Pelamar.objects.all()
@@ -25,7 +25,7 @@ def listPelamar(request):
         'pelamars' : pelamar
     }
 
-    return render(request, 'recruitment/pelamar/list_pelamar.html', context)
+    return render(request, 'recruitment/pelamar/list.html', context)
 
 def listPerteker(request):
     perteker = Perteker.objects.all()
@@ -34,7 +34,7 @@ def listPerteker(request):
         'pertekers' : perteker
     }
 
-    return render(request, 'recruitment/perteker/list_perteker.html', context)
+    return render(request, 'recruitment/perteker/list.html', context)
 
 def preprocess_data(df):
     # Kategorisasi Pendidikan
@@ -102,7 +102,7 @@ def listSeleksi(request):
         'title'     : 'List Seleksi',
         'data'      : all_data,
     }
-    return render(request, 'recruitment/seleksi/list_seleksi.html', context)
+    return render(request, 'recruitment/seleksi/list.html', context)
 
 
 

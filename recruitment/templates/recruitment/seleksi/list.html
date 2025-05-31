@@ -1,4 +1,7 @@
 <h2>Hasil Klasifikasi dari JSON</h2>
+<a href="{% url 'recruitment:list_departemen' %}">Departemen</a>
+<a href="{% url 'recruitment:list_perteker' %}">Tenaker</a>
+<a href="{% url 'recruitment:list_pelamar' %}">Pelamar</a>
 <table border="1">
   <tr>
     <th>Nama</th>
@@ -11,7 +14,7 @@
     <th>Rekom</th>
     <th>Status</th>
   </tr>
-  {% for d in depts %}
+  {% for c in data %}
   <tr>
     <td>{{ c.Nama }}</td>
     <td>{{ c.Gender }}</td>

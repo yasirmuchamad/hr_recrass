@@ -1,0 +1,38 @@
+<h2>Daftar Pelamar Kerja</h2>
+<a href="{% url 'recruitment:list_departemen' %}">Departemen</a>
+<a href="{% url 'recruitment:list_perteker' %}">Tenaker</a>
+<a href="{% url 'recruitment:list_seleksi' %}">Seleksi</a>
+<table border="1">
+  <tr>
+    <th>Nama</th>
+    <th>Gender</th>
+    <th>Usia</th>
+    <th>Pendidikan</th>
+    <th>Jurusan</th>
+    <th>Almamater</th>
+    <th>Pengalaman</th>
+    <th>Keahlian</th>
+    <th>Posisi</th>
+    <th>Alamat</th>
+    <th>Phone</th>
+    <th>Aksi</th>
+  </tr>
+  {% for p in pelamars %}
+  <tr>
+    <td>{{ p.nama }}</td>
+    <td>{{ p.gender }}</td>
+    <td>{{ p.usia }}</td>
+    <td>{{ p.pendidikan }}</td>
+    <td>{{ p.jurusan }}</td>
+    <td>{{ p.almamater }}</td>
+    <td>{{ p.pengalaman }}</td>
+    <td>{{ p.keahlian }}</td>
+    <td>{{ p.perteker.open_poss }}</td>
+    <td>{{ p.alamat }}</td>
+    <td>{{ p.phone }}</td>
+    <td>
+        <a href="">Update</a> | <a href="">Delete</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>

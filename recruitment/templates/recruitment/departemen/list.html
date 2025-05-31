@@ -1,0 +1,18 @@
+<h2>Hasil Klasifikasi dari JSON</h2>
+<a href="{% url 'recruitment:list_pelamar' %}">Pelamar</a>
+<a href="{% url 'recruitment:list_perteker' %}">Tenaker</a>
+<a href="{% url 'recruitment:list_seleksi' %}">Seleksi</a>
+<table border="1">
+  <tr>
+    <th>Nama Departemen</th>
+    <th>Aksi</th>
+  </tr>
+  {% for d in depts %}
+  <tr>
+    <td>{{ d.nama }}</td>
+    <td>
+      <a href="">Update</a> | <a href="">Delete</a>
+  </td>
+  </tr>
+  {% endfor %}
+</table>
