@@ -3,6 +3,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes  import CategoricalNB
 from django.conf import settings
 from .models import Pelamar, Seleksi, Departemen, Perteker
+from .forms import *
 import pandas as pd
 import json
 import os
@@ -13,15 +14,34 @@ def listDepartemen(request):
     departemen = Departemen.objects.all()
 
     context = {
-        'depts' : departemen
+        'title'     : 'Departemen',
+        'subtitle'  : 'HR-Recruitment & Assesment',
+        'depts'     : departemen
     }
 
     return render(request, 'recruitment/departemen/list.html', context)
+
+def createDepartemen(request):
+    form = DepartemenForm(request.POST or None)
+    if request.method == 'Post':
+        if form.is_valid():
+            form.save()
+        return redirect('departemen:list_departemen')
+    context = {
+        'title'     : 'Tambah Departemen',
+        'subtitle'  : 'HR-Recruitment & Assesment',
+        'forms'     : form
+    }
+    return render(request, 'recruitment/departemen/create.html', context)
+
+# --------------------------------------------------------------------------------------------------------------
 
 def listPelamar(request):
     pelamar = Pelamar.objects.all()
     
     context = {
+        'title'     : 'Pelamar',
+        'subtitle'  : 'HR-Recruitment & Assesment',
         'pelamars' : pelamar
     }
 
@@ -31,6 +51,8 @@ def listPerteker(request):
     perteker = Perteker.objects.all()
     
     context = {
+        'title'     : 'Permintaan Tenaga Kerja',
+        'subtitle'  : 'HR-Recruitment & Assesment',
         'pertekers' : perteker
     }
 
@@ -99,7 +121,8 @@ def listSeleksi(request):
         all_data.append(record)
 
     context = {
-        'title'     : 'List Seleksi',
+        'title'     : 'Seleksi',
+        'subtitle'  : 'HR-Recruitment & Assesment',
         'data'      : all_data,
     }
     return render(request, 'recruitment/seleksi/list.html', context)
