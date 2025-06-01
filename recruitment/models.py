@@ -51,7 +51,7 @@ class Departemen(models.Model):
         return self.nama
 
 class CustomUser(AbstractUser):
-    Departemen  = models.ForeignKey(Departemen, on_delete = models.CASCADE, null = True, blank = True)
+    departemen  = models.ForeignKey(Departemen, on_delete = models.CASCADE, null = True, blank = True)
 
     class Meta:
         verbose_name = 'User'

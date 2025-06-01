@@ -21,3 +21,12 @@ class PelamarForm(forms.ModelForm):
         model = Pelamar
         fields = '__all__'
 
+
+class PertekerForm(forms.ModelForm):
+    """Form definition for Departemen."""
+
+    class Meta:
+        """Meta definition for Departemenform."""
+
+        model = Perteker
+        fields = '__all__'

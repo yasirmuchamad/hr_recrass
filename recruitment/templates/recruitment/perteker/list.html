@@ -4,7 +4,7 @@
 <a href="{% url 'recruitment:list_seleksi' %}">Seleksi</a>
 <table border="1">
   <tr>
-    <th>Nama</th>
+    <th>User</th>
     <th>Open Posision</th>
     <th>Gender</th>
     <th>Pendidikan</th>
@@ -25,8 +25,11 @@
     <td>{{ p.jurusan }}</td>
     <td>{{ p.jumlah }}</td>
     <td>
-        <a href="">Update</a> | <a href="">Delete</a>
-    </td>
+      <a href="{% url 'recruitment:update_perteker' p.id %}">Update</a>
+       | 
+      <a href="{% url 'recruitment:delete_perteker' p.id %}">Delete</a>
+  </td>
   </tr>
   {% endfor %}
 </table>
+<a href="{% url 'recruitment:create_perteker' %}">Add</a>

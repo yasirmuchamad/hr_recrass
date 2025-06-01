@@ -11,8 +11,12 @@ urlpatterns = [
     path('pelamar', views.listPelamar, name = 'list_pelamar'),
     path('pelamar/add', views.createPelamar, name = 'create_pelamar'),
     path('pelamar/update/<int:update_id>', views.updatePelamar, name = 'update_pelamar'),
-    # path('pelamar/delete/<int:delete_id>', views.deletePelamar, name = 'delete_pelamar'),
+    path('pelamar/delete/<int:delete_id>', views.deletePelamar, name = 'delete_pelamar'),
 
     path('perteker', views.listPerteker, name = 'list_perteker'),
+    path('perteker/add', views.createPerteker, name = 'create_perteker'),
+    path('perteker/update/<int:update_id>', views.updatePerteker, name = 'update_perteker'),
+    path('perteker/delete/<int:delete_id>', views.deletePerteker, name = 'delete_perteker'),
+
     path('seleksi', views.listSeleksi, name = 'list_seleksi')
 ]

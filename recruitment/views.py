@@ -131,6 +131,51 @@ def listPerteker(request):
 
     return render(request, 'recruitment/perteker/list.html', context)
 
+def createPerteker(request):
+    form = PertekerForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+        return redirect('recruitment:list_perteker')
+    context = {
+        'title'     : 'Permintaan Tenaga Kerja',
+        'subtitle'  : 'HR-Recruitment & Assesment',
+        'forms'     : form
+    }
+    return render(request, 'recruitment/perteker/create.html', context)
+
+def updatePerteker(request, update_id):
+    update = Perteker.objects.get(id=update_id)
+    data = {
+        'gender'        : update.gender,
+        'open_poss'     : update.open_poss,
+        'batas_usia'    : update.batas_usia,
+        'pendidikan_min': update.pendidikan_min,
+        'jurusan'       : update.jurusan,
+        'pengalaman'    : update.pengalaman,
+        'jumlah'        : update.jumlah,
+    }
+    form = PertekerForm(request.POST or None, initial=data, instance=update)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+        return redirect('recruitment:list_perteker')
+
+    context = {
+        'title'     : 'Update Permintaan Tenaga Kerja',
+        'subtitle'  : 'HR-Recruitment & Assesment',
+        'forms'     : form,
+    }
+
+    return render(request, 'recruitment/pelamar/create.html', context)
+
+def deletePerteker(request, delete_id):
+    Perteker.objects.filter(id = delete_id).delete()
+    return redirect('recruitmens:list_perteker')
+
+    # ----------------------------------------------------------------------------------------------
+
 def preprocess_data(df):
     # Kategorisasi Pendidikan
     def kategori_pendidikan(p):
