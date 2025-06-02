@@ -1,0 +1,54 @@
+<h2>{{ title }}</h2>
+<form action="" method="post">
+    {% csrf_token %}
+
+    <label for="psikotest">Psikotest : </label><br>  
+    <select name="psikotest" id="psikotest">
+        <option value="" {% if not seleksi.nilai_psikotest %}selected{% endif %}>------ Pilih Nilai ------</option>
+        
+        {% for pil in pil_nilai %}
+            <option value="{{ pil }}" 
+            {% if seleksi.nilai_psikotest == pil %}selected{% endif %}>
+                    {{ pil }}                    
+            </option>
+        {% endfor %}
+            
+    </select>
+    <br>
+    <br>
+
+
+    <label for="interview">Interview : </label><br>
+    <select name="interview" id="interview">
+        <option value="" {% if not seleksi.nilai_interview %}selected{% endif %}> ------ Pilih Nilai ------</option>
+        {% for pil in pil_nilai %}
+            <option value="{{ pil }}"
+                {% if seleksi.nilai_interview == pil %}selected{% endif %}>
+                    {{ pil }} 
+            </option>
+        {% endfor %}
+    </select>
+    <br><br>    
+
+
+    <label for="status">Status : </label><br>
+    <select name="" id="">
+        <option value="" 
+        {% if not seleksi.status %}
+            selected
+        {% endif %}
+            >Belum Lengkap</option>
+    
+        {% for pil in pil_status %}
+        <option value="{{ pil }}"
+            {% if seleksi.status == pil %}selected{% endif %}>
+                {{ pil }} 
+        </option>
+            <!-- <input type="radio" name="status" id="status" value="{{ pil }}" {% if seleksi.status == pil %} checked {% endif %}>{{ pil }}   -->
+        {% endfor %}
+    </select>
+    <br>
+    <label for="catatan">Catatan : </label>
+    <input type="text" name="catatan" id="catatan">
+    <button type="submit">simpan</button>
+</form>

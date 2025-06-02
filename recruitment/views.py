@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes  import CategoricalNB
 from django.conf import settings
@@ -116,7 +116,7 @@ def updatePelamar(request, update_id):
 
 def deletePelamar(request, delete_id):
     Pelamar.objects.filter(id = delete_id).delete()
-    return redirect('recruitmens:list_pelamar')
+    return redirect('recruitment:list_pelamar')
 
 # ---------------------------------------------------------------------------------------------
 
@@ -245,6 +245,24 @@ def listSeleksi(request):
     }
     return render(request, 'recruitment/seleksi/list.html', context)
 
+def updateSeleksi(request, update_id):
+    seleksi = get_object_or_404(Seleksi, id = update_id)
+    if request.method == 'POST':
+        seleksi.nilai_psikotest = request.POST.get('psikotest')
+        seleksi.nilai_interview = request.POST.get('interview')
+        seleksi.status          = request.POST.get('status')
+        seleksi.save()
+        return redirect('recruitment:list_seleksi')
+
+    context = {
+        'title'     : 'Update Seleksi',
+        'subtitle'  : 'HR Recruitment & Assesment',
+        'seleksi'   : seleksi,
+        'pil_nilai' : ['Baik', 'Cukup', 'Kurang'],
+        'pil_status': ['Diterima', 'Ditolak', 'Mundur']
+    }
+
+    return render(request, 'recruitment/seleksi/update.html', context)
 
 
 

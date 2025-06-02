@@ -150,15 +150,17 @@ class Seleksi(models.Model):
     nilai_psikotest = models.CharField(
                             max_length = 8,
                             choices = LIST_HASIL_TEST,
-                            blank = True
+                            blank = True,
+                            null = True
                         )
     nilai_interview = models.CharField(
                             max_length = 8,
                             choices = LIST_HASIL_TEST,
-                            blank = True
+                            blank = True,
+                            null = True
                         )
-    status          = models.CharField(max_length = 8, blank = True)
-    catatan         = models.CharField(max_length = 64, blank = True)
+    status          = models.CharField(max_length = 8, blank = True, null = True)
+    catatan         = models.CharField(max_length = 64, blank = True,  null = True)
     tanggal         = models.DateField(auto_now = True)
 
     class Meta:

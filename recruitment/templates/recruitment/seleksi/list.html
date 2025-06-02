@@ -13,6 +13,8 @@
     <th>Interview</th>
     <th>Rekom</th>
     <th>Status</th>
+    <th>Catatan</th>
+    <th>Aksi</th>
   </tr>
   {% for c in data %}
   <tr>
@@ -25,6 +27,10 @@
     <td>{{ c.Interview }}</td>
     <td><strong>{{ c.Prediksi|upper }}</strong></td>
     <td>{{ c.Status }}</td>
+    <td>{{ c.catatan }}</td>
+    <td>
+      <a href="{% url 'recruitment:update_seleksi' c.id %}">Update</a>
+    </td>
   </tr>
   {% endfor %}
 </table>
