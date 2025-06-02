@@ -32,7 +32,7 @@
 
 
     <label for="status">Status : </label><br>
-    <select name="" id="">
+    <select name="status" id="status">
         <option value="" 
         {% if not seleksi.status %}
             selected
@@ -48,7 +48,10 @@
         {% endfor %}
     </select>
     <br>
+    <br>
     <label for="catatan">Catatan : </label>
-    <input type="text" name="catatan" id="catatan">
+    <br>
+    <input type="text" name="catatan" id="catatan" value="{{ seleksi.catatan }}">
+    <br><br>
     <button type="submit">simpan</button>
 </form>

@@ -219,7 +219,8 @@ def listSeleksi(request):
             'Psikotest' : obj.nilai_psikotest,
             'Interview' : obj.nilai_interview,
             'Status'    : obj.status,
-            'Prediksi'  : 'Belum lengkap'
+            'Prediksi'  : 'Belum lengkap',
+            'catatan'   : obj.catatan
         }
 
         if all([obj.pelamar.gender, obj.pelamar.pendidikan, obj.pelamar.pengalaman, obj.pelamar.usia, obj.nilai_psikotest, obj.nilai_interview]):
@@ -251,6 +252,7 @@ def updateSeleksi(request, update_id):
         seleksi.nilai_psikotest = request.POST.get('psikotest')
         seleksi.nilai_interview = request.POST.get('interview')
         seleksi.status          = request.POST.get('status')
+        seleksi.catatan         = request.POST.get('catatan')
         seleksi.save()
         return redirect('recruitment:list_seleksi')
 

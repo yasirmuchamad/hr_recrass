@@ -11,7 +11,7 @@
     <th>Usia</th>
     <th>Psikotest</th>
     <th>Interview</th>
-    <th>Rekom</th>
+    <th>Rekomendasi NBC</th>
     <th>Status</th>
     <th>Catatan</th>
     <th>Aksi</th>
@@ -23,11 +23,11 @@
     <td>{{ c.Pendidikan }}</td>
     <td>{{ c.Pengalaman }}</td>
     <td>{{ c.Usia }}</td>
-    <td>{{ c.Psikotest }}</td>
-    <td>{{ c.Interview }}</td>
+    <td>{{ c.Psikotest|default:'-' }}</td>
+    <td>{{ c.Interview|default:'-' }}</td>
     <td><strong>{{ c.Prediksi|upper }}</strong></td>
-    <td>{{ c.Status }}</td>
-    <td>{{ c.catatan }}</td>
+    <td>{{ c.Status|default:'-' }}</td>
+    <td>{{ c.catatan|default:'-' }}</td>
     <td>
       <a href="{% url 'recruitment:update_seleksi' c.id %}">Update</a>
     </td>

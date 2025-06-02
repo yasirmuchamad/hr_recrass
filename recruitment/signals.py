@@ -10,4 +10,5 @@ def createSeleksiFromPelamar(sender, instance, created, **kwargs):
             nilai_psikotest = None,
             nilai_interview = None,
             status          = 'Belum diproses',
+            catatan         = None
         )
