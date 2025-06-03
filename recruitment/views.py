@@ -16,7 +16,7 @@ def listDepartemen(request):
     context = {
         'title'     : 'Departemen',
         'subtitle'  : 'HR-Recruitment & Assesment',
-        'depts'     : departemen
+        'departemens'     : departemen
     }
 
     return render(request, 'recruitment/departemen/list.html', context)
@@ -220,7 +220,8 @@ def listSeleksi(request):
             'Interview' : obj.nilai_interview,
             'Status'    : obj.status,
             'Prediksi'  : 'Belum lengkap',
-            'catatan'   : obj.catatan
+            'Catatan'   : obj.catatan,
+            'Tanggal'   : obj.tanggal
         }
 
         if all([obj.pelamar.gender, obj.pelamar.pendidikan, obj.pelamar.pengalaman, obj.pelamar.usia, obj.nilai_psikotest, obj.nilai_interview]):
@@ -242,7 +243,7 @@ def listSeleksi(request):
     context = {
         'title'     : 'Seleksi',
         'subtitle'  : 'HR-Recruitment & Assesment',
-        'data'      : all_data,
+        'seleksis'  : all_data,
     }
     return render(request, 'recruitment/seleksi/list.html', context)
 
