@@ -97,11 +97,11 @@
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ d.nama }}</td>
                                     <td>
-                                        <a href="{% url 'recruitment:update_departemen' d.id %}" class="btn btn-xs btn-warning"
-                                            style="width: 50px">Edit</a>
+                                        <a href="{% url 'recruitment:update_departemen' d.id %}" class="btn btn-sm btn-warning"
+                                            style="width: 100px; color: white;">Update</a>
                                         |
-                                        <a href="{% url 'recruitment:delete_departemen' d.id %}" class="btn btn-xs btn-danger"
-                                            style="width: 50px">Delete</a>
+                                        <a href="{% url 'recruitment:delete_departemen' d.id %}" class="btn btn-sm btn-danger"
+                                            style="width: 100px">Delete</a>
                                     </td>
                                 </tr>
                                 {% endfor %}

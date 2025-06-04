@@ -1,167 +1,90 @@
 {% extends 'base.html' %}
-<!-- <h2>{{ title }}</h2>
-<a href="{% url 'recruitment:list_departemen' %}">Departemen</a>
-<a href="{% url 'recruitment:list_pelamar' %}">Pelamar</a>
-<a href="{% url 'recruitment:list_seleksi' %}">Seleksi</a>
-<table border="1">
-  <tr>
-    <th>User</th>
-    <th>Open Posision</th>
-    <th>Gender</th>
-    <th>Pendidikan</th>
-    <th>Pengalaman</th>
-    <th>Usia</th>
-    <th>Jurusan</th>
-    <th>Jumlah</th>
-    <th>Aksi</th>
-  </tr>
-  {% for p in pertekers %}
-  <tr>
-    <td>{{ p.user.username }}</td>
-    <td>{{ p.open_poss }}</td>
-    <td>{{ p.gender }}</td>
-    <td>{{ p.pendidikan_min }}</td>
-    <td>{{ p.pengalaman }}</td>
-    <td>{{ p.batas_usia }}</td>
-    <td>{{ p.jurusan }}</td>
-    <td>{{ p.jumlah }}</td>
-    <td>
-      <a href="{% url 'recruitment:update_perteker' p.id %}">Update</a>
-       | 
-      <a href="{% url 'recruitment:delete_perteker' p.id %}">Delete</a>
-  </td>
-  </tr>
-  {% endfor %}
-</table>
-<a href="{% url 'recruitment:create_perteker' %}">Add</a> -->
-
 
 
 {% block content %}
 <div class="row">
-    <div class="col-md-10">
-        <div class="card card-default">
-            <div class="card-body">
-                {% if messages %}
-                {% for message in messages %}
-                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
-                    {{ message }}
-                </div>
-                {% endfor %}
-
-                {% endif %}
-                <div class="row">
-                    {% if request.user.groups.all.0.name == "User" %}
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <a href="{% url 'rekrutmen:create_ptk' %}" class="btn btn-primary btn-md"
-                                    style="width: 180px">Tambah PTK
-                                </a>
-                            </div>
-                        </div>
-                        <!-- <ul>{{ request.user.groups.all.0.name }}</ul> -->
-                    <!-- <div class="col-md-3">
-                        <div class="form-group">
-                            <a href="{% url 'rekrutmen:create_ptk' %}" class="btn btn-primary btn-md"
-                                style="width: 180px">Tambah PTK
-                            </a>
-                        </div>
-                    </div> -->
-                    {% endif %}
-                    <div class="col-md">
-                        <div class="form-group">
-                            <!-- <label for="filter-input">Filter:</label> -->
-                            <input type="text" id="filter-input" class="form-control" placeholder="Search">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <a href="{% url 'rekrutmen:export_departemen' %}" class="btn btn-info btn-md"
-                                style="width: 40px">
-                                <i class="fas fa-file-excel nav-icon"></i>
-                            </a>
-                            <a href="" class="btn btn-secondary btn-md" onclick="printSection()" style="width: 40px">
-                                <i class="fas fa-print nav-icon"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="card-body p-0">
-                        <table class="table table-hover" style="text-align: center;">
-                            <thead>
-                                <tr>
-                                    <th style="width: 5px">No</th>
-                                    <!-- <th>User</th> -->
-                                    <th>Date</th>
-                                    <th>Position</th>
-                                    <th style="width: 10px">Gender</th>
-                                    <th>Max Age</th>
-                                    <th>Min Grad</th>
-                                    <th>Vocation</th>
-                                    <th>Exp</th>
-                                    <th style="width: 10px">Qty</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for ptk in pertekers %}
-                                <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <!-- <td>{{ ptk.user.username }}</td> -->
-                                    <td>{{ ptk.tanggal|date:"Y-m-d" }}</td>
-                                    <td>{{ ptk.open_poss }}</td>
-                                    <td>{{ ptk.gender }}</td>
-                                    <td>{{ ptk.batas_usia }}</td>
-                                    <td>{{ ptk.pendidikan }}</td>
-                                    <td>{{ ptk.jurusan }}</td>
-                                    <td>{{ p.pengalaman }}</td>
-                                    <td>{{ ptk.jumlah }}</td>
-                                    <td>
-                                        <a href="{% url 'rekrutmen:update_ptk' ptk.id %}" class="btn btn-xs btn-warning"
-                                            style="width: 50px">Edit</a>
-                                        |
-                                        <a href="{% url 'rekrutmen:delete_ptk' ptk.id %}" class="btn btn-xs btn-danger"
-                                            style="width: 50px">Delete</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+  <div class="col-md">
+    <div class="card card-default">
+      <div class="card-body">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                {{ message }}
             </div>
-        </div>
-    </div>
-    <div class="col-md">
-        <div class="card card-default">
-            <div class="card-body">
-                <!-- <label for="">Penjelasan
-                </label> -->
-                <p>Penjelasan</p>
-                <!-- <ul> -->
-                    {% if request.user.groups.all.0.name == "User" %}
-                    <li style="font-size: 11px">
-                        Anda dapat menambahkan transaksi baru dengan klik tombol <strong>Add Transaksi</strong>.
-                    </li>
-                    <br>
-                    {% endif %}
-                    <li style="font-size: 11px">
-                        Anda dapat memfilter berdasarkan Date, Position dengan mengetik langsung pada field <strong>Search</strong>.
-                    </li>
-                    <br>
-                    <li style="font-size: 11px">
-                        Anda dapat melakukan export daftar PTK dengan klik tombol <strong>Export</strong>.
-                    </li>
-                    <br>
-                    <li style="font-size: 11px">
-                        Anda dapat mencetak daftar PTK dengan klik tombol <strong>Print</strong>.
-                    </li>
-                <!-- </ul> -->
-                <!-- </p> -->
+          {% endfor %}
+        {% endif %}
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <a href="{% url 'recruitment:create_perteker' %}" class="btn btn-primary btn-md"
+              style="width: 180px">Tambah PTK
+              </a>
             </div>
-        </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <!-- <label for="filter-input">Filter:</label> -->
+              <input type="text" id="filter-input" class="form-control" placeholder="Search">
+            </div>
+          </div>
+          <div class="col-md d-flex justify-content-end">
+            <div class="form-group">
+              <a href="{% url 'recruitment:list_departemen' %}" class="btn btn-info btn-md"
+                    style="width: 40px">
+                <i class="fas fa-file-excel nav-icon"></i>
+              </a>
+              <a href="" class="btn btn-secondary btn-md" onclick="printSection()" style="width: 40px ">
+                <i class="fas fa-print nav-icon"></i>
+              </a>
+            </div>
+          </div>
+          <div class="content">
+            <div class="card-body p-0">
+              <table class="table table-hover" style="text-align: center;">
+                <thead>
+                  <tr>
+                    <th style="width: 5px">No</th>
+                    <!-- <th>User</th> -->
+                    <th>Tanggal</th>
+                    <th>Posisi</th>
+                    <th style="width: 10px">Gender</th>
+                    <th>Usia Max</th>
+                    <th>Pdk Min</th>
+                    <th>Jurusan</th>
+                    <th>Pengalaman</th>
+                    <th style="width: 10px">Qty</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for p in pertekers %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <!-- <td>{{ ptk.user.username }}</td> -->
+                    <td>{{ p.tanggal|date:"Y-m-d" }}</td>
+                    <td>{{ p.open_poss }}</td>
+                    <td>{{ p.gender }}</td>
+                    <td>{{ p.batas_usia }}</td>
+                    <td>{{ p.pendidikan_min }}</td>
+                    <td>{{ p.jurusan }}</td>
+                    <td>{{ p.pengalaman }}</td>
+                    <td>{{ p.jumlah }}</td>
+                    <td>
+                      <a href="{% url 'recruitment:update_perteker' p.id %}" class="btn btn-xs btn-warning"
+                          style="width: 50px; color:white">Edit</a>
+                      |
+                      <a href="{% url 'recruitment:delete_perteker' p.id %}" class="btn btn-xs btn-danger"
+                          style="width: 50px">Delete</a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
     </div>
+  </div>
 </div>
 
 {% endblock content %}
