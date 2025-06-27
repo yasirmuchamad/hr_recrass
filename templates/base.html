@@ -1,4 +1,5 @@
 {% load static %}
+{% load group_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,13 +9,15 @@
   <title>
 
     {% block title %}
-        {{ title }}
+        {{ subtitle }}
     {% endblock title %}
 
   </title>
 
   <!-- Google Font: Source Sans Pro -->
   <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> -->
+  <!-- Custom -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static 'css/alert.css' %}">
   <!-- Font Awesome -->
@@ -39,6 +42,7 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{% static 'plugins/summernote/summernote-bs4.min.css' %}">
   <!-- <link rel="stylesheet" href="https://kit.fontawesome.com/554226c89d.css" crossorigin="anonymous"> -->
+  
   <style>
     @media print {
       body * {
@@ -70,6 +74,7 @@
       font-size: 24px;
     }
   </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   {% block js %}
 
   {% endblock js %} 
@@ -126,7 +131,7 @@
                 
                 
                 <li class="nav-item">
-                  <a href="{% url 'recruitment:list_departemen' %}" class="nav-link">
+                  <a href="{% url 'recruitment:index' %}" class="nav-link {% if request.path == '/recruitment/index' %}active{% endif %}">
                     <!-- <a href="" class="nav-link {% if active_menu == '/departemen/' %}active{% endif %}"></a> -->
                     <!-- <i class="nav-icon fas fa-tachometer-alt"></i> -->
                     <ion-icon name="home-outline" id="side-menu"></ion-icon>
@@ -137,45 +142,51 @@
                 </li>
                
                   <li class="nav-item">
-                    <a href="{% url 'recruitment:list_departemen' %}" class="nav-link">
-                      <!-- <i class="fas fa-table nav-icon"></i> -->
-                      <ion-icon name="trail-sign-outline" id="side-menu"></ion-icon>
-                      <p>Departement</p>
-                    </a>
+                    {% if request.user|has_group:"Admin" %}
+                      <a href="{% url 'recruitment:list_departemen' %}" class="nav-link {% if request.path == '/recruitment/departemen' %}active{% endif %}">
+                        <!-- <i class="fas fa-table nav-icon"></i> -->
+                        <ion-icon name="trail-sign-outline" id="side-menu"></ion-icon>
+                        <p>Departement</p>
+                      </a>
+                    {% endif %}
                   </li>
                 
                 <li class="nav-item">
-                  <a href="{% url 'recruitment:list_seleksi' %}" class="nav-link">
+                  <a href="{% url 'recruitment:list_seleksi' %}" class="nav-link {% if request.path == '/recruitment/seleksi' %}active{% endif %}">
                     <!-- <i class="fas fa-desktop nav-icon"></i> -->
                     <ion-icon name="desktop-outline" id="side-menu"></ion-icon>
                     <p>Monitoring</p>
                   </a>
                 </li>
                   <li class="nav-item">
-                    <a href="{% url 'recruitment:list_pelamar' %}" class="nav-link">
+                    {% if request.user|has_group:"Admin" %}
+                    <a href="{% url 'recruitment:list_pelamar' %}" class="nav-link {% if request.path == '/recruitment/pelamar' %}active{% endif %}">
                       <!-- <i class="fas fa-table nav-icon"></i> -->
                       <ion-icon name="pricetags-outline" id="side-menu"></ion-icon>
                       <p>Pelamar</p>
                     </a>
+                    {% endif %}
                   </li>
                 
                 <li class="nav-item">
-                  <a href="{% url 'recruitment:list_perteker' %}" class="nav-link">
+                  <a href="{% url 'recruitment:list_perteker' %}" class="nav-link {% if request.path == '/recruitment/perteker' %}active{% endif %}">
                     <!-- <i class="fas fa-book nav-icon"></i> -->
                     <ion-icon name="extension-puzzle-outline" id="side-menu"></ion-icon>
                     <p>PTK</p>
                   </a>
                 </li>
                   <li class="nav-item">
-                    <a href="" class="nav-link">
+                    {% if request.user|has_group:"Admin" %}
+                    <a href="{% url 'recruitment:list_user' %}" class="nav-link">
                       <!-- <i class="fas fa-desktop nav-icon"></i> -->
                       <ion-icon name="people" id="side-menu"></ion-icon>
                       <p>User</p>
                     </a>
+                    {% endif %}
                   </li>
                 
                 <li class="nav-item">
-                  <a href="" class="nav-link">
+                  <a href="{% url 'recruitment:logout' %}" class="nav-link" onclick="return confirm('Yakin ingin keluar aplikasi?');">
                     <!-- <i class="fas fa-solid fa-right-to-bracket nav-icon"></i> -->
                     <ion-icon name="log-out-outline" id="side-menu"></ion-icon>
                     <p>Logout</p>
@@ -200,7 +211,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">{{ title }}</h1>
+            <h1 class="m-0 print-area" id="print-area">{{ daftar }} {{ title }}</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -229,7 +240,7 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer no-print">
-    <strong>Copyright &copy; 2024 <a href="https://adminlte.io">EasyM</a>.</strong>
+    <strong>Copyright &copy; 2024 <a href="https://adminlte.io">AdminLTE</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 3.724
@@ -311,5 +322,6 @@
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </body>
 </html>

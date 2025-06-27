@@ -1,7 +1,57 @@
 from django import forms
 from .models import *
+# from .models import CustomUser
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 # TODO: Define form fields here
+class CustomUserCreationForm(UserCreationForm):
+    departemen = forms.ModelChoiceField(
+        queryset = Departemen.objects.all(),
+        empty_label = "Pilih Departemen"
+    )
+    # departement = forms.ModelChoiceField(queryset=Departement.objects.all(), empty_label="Select Department")
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2', 'departemen']
+    
+    def __init__(self, *args, **kwargs):
+        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs.update({'id': 'username', 'name':'username',
+                                                 'class':'form-control', 'placeholder':'Input username'})
+        self.fields["email"].widget.attrs.update({'id': 'email', 'name':'email',
+                                                 'class':'form-control', 'placeholder':'Input Email'})
+        self.fields["first_name"].widget.attrs.update({'id': 'first_name', 'name':'first_name',
+                                                 'class':'form-control', 'placeholder':'Input first_name'})
+        self.fields["last_name"].widget.attrs.update({'id': 'last_name', 'name':'last_name',
+                                                 'class':'form-control', 'placeholder':'Input last_name'})
+        self.fields["password1"].widget.attrs.update({'id': 'password1', 'name':'password1',
+                                                 'class':'form-control', 'placeholder':'type your password'})
+        self.fields["password2"].widget.attrs.update({'id': 'password2', 'name':'password2',
+                                                 'class':'form-control', 'placeholder':'retype your password'})
+        self.fields["departemen"].widget.attrs.update({'id': 'departemen', 'name':'departemen',
+                                                 'class':'form-control'})
+
+
+class CustomUserUpdateForm(UserChangeForm):
+    password = None
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'first_name', 'last_name', 'departemen']
+
+    def __init__(self, *args, **kwargs):
+        super(CustomUserUpdateForm, self).__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs.update({'id': 'username', 'name':'username',
+                                                 'class':'form-control', 'placeholder':'Input username'})
+        self.fields["email"].widget.attrs.update({'id': 'email', 'name':'email',
+                                                 'class':'form-control', 'placeholder':'Input Email'})
+        self.fields["first_name"].widget.attrs.update({'id': 'first_name', 'name':'first_name',
+                                                 'class':'form-control', 'placeholder':'Input first_name'})
+        self.fields["last_name"].widget.attrs.update({'id': 'last_name', 'name':'last_name',
+                                                 'class':'form-control', 'placeholder':'Input last_name'})
+        self.fields["departemen"].widget.attrs.update({'id': 'departemen', 'name':'departemen',
+                                                 'class':'form-control', 'placeholder':'Input departemen'})
+
+
 class DepartemenForm(forms.ModelForm):
     """Form definition for Departemen."""
 
@@ -59,7 +109,8 @@ class PertekerForm(forms.ModelForm):
         """Meta definition for Departemenform."""
 
         model = Perteker
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['user']
 
     def __init__(self, *args, user=None, **kwargs):
         super(PertekerForm, self).__init__(*args, **kwargs)

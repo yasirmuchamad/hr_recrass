@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+
+{% load static %}
+
+
+{% block js %}
+<script type="text/javascript">
+    // function openDepartemenPopup() {
+    //     window.open(" url asset:asset_popup ", "AssetPopup", "width=600, height=400");
+    // }
+
+    // function addNewItem(itemId, itemBrand) {
+        // document.getElementById('id_asset').value = assetId;
+        // document.getElementById("asset").innerText = assetNumber;
+        //MEMBUAT OPSI BARU UNTUK SELECT FORM
+//         var select = document.getElementById("item");
+//         var option = document.createElement("option");
+//         option.text = itemBrand;
+//         option.value = itemId;
+//         option.selected = true;
+//         select.add(option);
+//     }
+// </script>
+{% endblock js %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10">
+        <div class="card card-default">
+            <div class="card-body">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-error{% endif %}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ forms.non_field_errors }}
+                    <!-- <pre>{{ forms.as_p }}</pre> -->
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="username">Username :</label>
+                                {{ forms.username }}
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="email">Email :</label>
+                                {{ forms.email }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="first_name">Nama Depan :</label>
+                                {{ forms.first_name }}
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="last_name">Nama Belakang :</label>
+                                {{ forms.last_name }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if subtitle == 'Tambah' %}
+                        
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password1">Password :</label>
+                                {{ forms.password1 }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password2">Retype Password :</label>
+                                {{ forms.password2 }}
+                            </div>
+                        </div>
+                    </div>
+                       
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="departemen">Departemen :</label>
+                                {{ forms.departemen }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <input type="submit" class="btn btn-success btn-sm" value="Save" style="width: 100px">
+                    <a href="{% url 'recruitment:create_user' %}" class="btn btn-secondary btn-sm"
+                        style="width: 100px">Clear</a>
+                    <a href=" {% url 'recruitment:list_user' %}" class="btn btn-danger btn-sm" style="width: 100px">Cancel</a>
+
+                    
+            </div>
+        </div>
+    </div>
+    
+
+
+</div>
+<script src="{% static 'jquery.js' %}"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+{% endblock %}

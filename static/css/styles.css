@@ -1,0 +1,14 @@
+.nowrap-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+}
+
+.nowrap-cell:hover {
+    overflow: visible;
+    white-space: normal;
+    background-color: #f9f9f9;
+    position: relative;
+    z-index: 10;
+}

@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
+<script>
+    $(document).ready(function () {
+        $('#filter-input').on('keyup', function () {
+            var value = $(this).val().toLowerCase();
+            $('table tbody tr').filter(function () {
+                var rowText = $(this).text().toLowerCase();  // Ambil semua teks dalam baris
+                $(this).toggle(rowText.indexOf(value) > -1); // Tampilkan jika cocok
+            });
+        });
+    });
+</script>
 <div class="row">
     <div class="col-md">
         <div class="card card-default">
@@ -12,58 +23,76 @@
                 {% endfor %}
 
                 {% endif %}
-                <div class="row">
-                    <div class="col-md">
-                        <div class="form-group">
-                            <!-- <label for="filter-input">Filter:</label> -->
-                            <input type="text" id="filter-input" class="form-control" placeholder="Search">
-                        </div>
-                    </div>
-                    
-                </div>
                 <div class="content">
-                    <div class="card-body p-0">
-                        <table class="table table-hover" style="text-align: center;">
-                            <thead>
-                                <tr>
-                                    <th style="width: 5px">No</th>
-                                    <th>Tanggal</th>
-                                    <th>Nama</th>
-                                    <th>Gender</th>
-                                    <th>Pendidikan</th>
-                                    <th>Pengalaman</th>
-                                    <th>Usia</th>
-                                    <th>Psikotest</th>
-                                    <th>Interview</th>
-                                    <th>Rekom NBC</th>
-                                    <th>Status</th>
-                                    <th>Catatan</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for s in seleksis %}
-                                <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ s.Tanggal|date:"Y-m-d" }}</td>
-                                    <td>{{ s.Nama }}</td>
-                                    <td>{{ s.Gender }}</td>
-                                    <td>{{ s.Pendidikan }}</td>
-                                    <td>{{ s.Pengalaman }}</td>
-                                    <td>{{ s.Usia }}</td>
-                                    <td>{{ s.Psikotest }}</td>
-                                    <td>{{ s.Interview }}</td>
-                                    <td><strong>{{ s.Prediksi }}</strong></td>
-                                    <td>{{ s.Status }}</td>
-                                    <td>{{ s.Catatan }}</td>
-                                    <td>
-                                        <a href="{% url 'recruitment:update_seleksi' s.id %}" class="btn btn-xs btn-warning"
-                                            style="width: 50px">Update</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <div class="card-body">
+                        <div class="dataTables_wrapper dt-bootstraps4">
+                            <div class="row no-print mb-2">
+                              
+                                <div class="col-md">
+                                    <div class="d-flex justify-content-end md-2">
+                                        <!-- <label for="filter-input">Filter:</label> -->
+                                        <input type="text" id="filter-input" class="form-control" placeholder="Search" style="margin: 2px;">
+                                    
+                                        <a href="{% url 'recruitment:export_excel_seleksi' %}" class="btn btn-secondary"
+                                            style="width: 150px; margin: 2px;">
+                                            <i class="fas fa-file-excel nav-icon"></i> Export
+                                        </a>
+                                        <a href="" class="btn btn-secondary" onclick="printSection()" style="width: 150px; margin: 2px;">
+                                            <i class="fas fa-print nav-icon"></i> Print
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-striped dataTable dtr-inline table-hover" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 5px">No</th>
+                                        <!-- <th>Tanggal</th> -->
+                                        <th>Posisi</th>
+                                        <th style="width: 200px;">Nama</th>
+                                        <th>Gender</th>
+                                        <th>Pendidikan</th>
+                                        <th>Pengalaman</th>
+                                        <th>Usia</th>
+                                        <th>Psikotest</th>
+                                        <th>Interview</th>
+                                        <th>Rekomendasi NBC</th>
+                                        <th>Status</th>
+                                        <th>Catatan</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for s in seleksis %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <!-- <td>{{ s.Tanggal|date:"Y-m-d" }}</td> -->
+                                        <td class="nowrap-cell nowrap-cell:hover">{{ s.poss }}</td>
+                                        <td class="nowrap-cell nowrap-cell:hover" style="width: 200px;">{{ s.Nama }}</td>
+                                        <td> 
+                                        {% if s.Gender == 'Laki-laki' %}
+                                            L
+                                        {% else %}
+                                            P
+                                        {% endif %}
+                                        </td>
+                                        <td class="nowrap-cell nowrap-cell:hover">{{ s.Pendidikan }}</td>
+                                        <td>{{ s.Pengalaman }}</td>
+                                        <td>{{ s.Usia }}</td>
+                                        <td>{{ s.Psikotest }}</td>
+                                        <td>{{ s.Interview }}</td>
+                                        <td><strong>{{ s.Prediksi }}</strong></td>
+                                        <td>{{ s.Status }}</td>
+                                        <td class="nowrap-cell nowrap-cell:hover">{{ s.Catatan }}</td>
+                                        <td>
+                                            <a href="{% url 'recruitment:update_seleksi' s.id %}" class="btn btn btn-warning"
+                                                style="width: 120px; color: white;"><i class="fas fa-edit nav-icon"></i> Update</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

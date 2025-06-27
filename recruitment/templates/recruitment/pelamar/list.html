@@ -1,167 +1,114 @@
 {% extends 'base.html' %}
-<!-- <h2>{{ title }}</h2>
-<a href="{% url 'recruitment:list_departemen' %}">Departemen</a>
-<a href="{% url 'recruitment:list_perteker' %}">Tenaker</a>
-<a href="{% url 'recruitment:list_seleksi' %}">Seleksi</a>
-<table border="1">
-  <tr>
-    <th>Nama</th>
-    <th>Gender</th>
-    <th>Usia</th>
-    <th>Pendidikan</th>
-    <th>Jurusan</th>
-    <th>Almamater</th>
-    <th>Pengalaman</th>
-    <th>Keahlian</th>
-    <th>Posisi Dilamar</th>
-    <th>Alamat</th>
-    <th>Phone</th>
-    <th>Aksi</th>
-  </tr>
-  {% for p in pelamars %}
-  <tr>
-    <td>{{ p.nama }}</td>
-    <td>{{ p.gender }}</td>
-    <td>{{ p.usia }}</td>
-    <td>{{ p.pendidikan }}</td>
-    <td>{{ p.jurusan }}</td>
-    <td>{{ p.almamater }}</td>
-    <td>{{ p.pengalaman }}</td>
-    <td>{{ p.keahlian }}</td>
-    <td>{{ p.perteker.open_poss }}</td>
-    <td>{{ p.alamat }}</td>
-    <td>{{ p.phone }}</td>
-    <td>
-      <a href="{% url 'recruitment:update_pelamar' p.id %}">Update</a>
-       | 
-      <a href="{% url 'recruitment:delete_pelamar' p.id %}">Delete</a>
-  </td>
-  </tr>
-  {% endfor %}
-</table>
-<a href="{% url 'recruitment:create_pelamar' %}">Add</a>
--->
- 
-
 
 {% block content %}
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script>
+    $(document).ready(function () {
+        $('#filter-input').on('keyup', function () {
+            var value = $(this).val().toLowerCase();
+            $('table tbody tr').filter(function () {
+                var rowText = $(this).text().toLowerCase();  // Ambil semua teks dalam baris
+                $(this).toggle(rowText.indexOf(value) > -1); // Tampilkan jika cocok
+            });
+        });
+    });
+</script>
+
 <div class="row">
     <div class="col-md">
         <div class="card card-default">
             <div class="card-body">
                 {% if messages %}
-                {% for message in messages %}
-                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
-                    {{ message }}
-                </div>
-                {% endfor %}
-
+                    {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
                 {% endif %}
-                <div class="row">
-                    <div class="col-md">
-                        <div class="form-group">
-                            <a href="{% url 'recruitment:create_pelamar' %}" class="btn btn-primary btn-md"
-                                style="width: 180px">Tambah
-                                {{ title }}
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="form-group">
-                            <!-- <label for="filter-input">Filter:</label> -->
-                            <input type="text" id="filter-input" class="form-control" placeholder="Search">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <a href="" class="btn btn-info btn-md"
-                                style="width: 40px">
-                                <i class="fas fa-file-excel nav-icon"></i>
-                            </a>
-                            <a href="" class="btn btn-secondary btn-md" onclick="printSection()" style="width: 40px">
-                                <i class="fas fa-print nav-icon"></i>
-                            </a>
-                        </div>
-                    </div>
-                <!-- </div> -->
-                    <div class="content">
-                        <div class="card-body">
-                            <table class="table table-hover" style="text-align: center;">
+                <div class="content">
+                    <div class="card-body">
+                        <div class="dataTables_wrapper dt-bootstraps4">
+
+                            <div class="row no-print mb-2">
+                                <div class="col-md">
+                                    <!-- <div class="form-group"> -->
+                                        <a href="{% url 'recruitment:create_pelamar' %}" class="btn btn-primary"
+                                            style="width: 150px"> <i class="fas fa-plus-square nav-icon"></i> Tambah
+                                        </a>
+                                    <!-- </div> -->
+                                </div>
+                                <div class="col-md">
+                                    <div class="d-flex justify-content-end md-2">
+                                        <!-- <label for="filter-input">Filter:</label> -->
+                                        <input type="text" id="filter-input" class="form-control" placeholder="Search" style="margin: 2px;">
+                                    
+                                        <a href="{% url 'recruitment:export_excel_pelamar' %}" class="btn btn-secondary"
+                                            style="width: 150px; margin: 2px;">
+                                            <i class="fas fa-file-excel nav-icon"></i> Export
+                                        </a>
+                                        <a href="" class="btn btn-secondary" onclick="printSection()" style="width: 150px; margin: 2px;">
+                                            <i class="fas fa-print nav-icon"></i> Print
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <table class="table table-hover table-bordered table-striped dataTable dtr-inline" style="text-align: center;">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px">No</th>
-                                        <th>Nama</th>
+                                        <th>No</th>
+                                        <th>Posisi</th>
+                                        <th style="width: 200px;">Nama</th>
                                         <th>Gender</th>
                                         <th>Usia</th>
                                         <th>Pend</th>
                                         <th>Jurusan</th>
-                                        <th>Almamater</th>
+                                        <th>Lulusan</th>
                                         <th>Exp</th>
-                                        <th>Keahlian</th>
-                                        <th>Ptk</th>
-                                        <th>Alamat</th>
+                                        <!-- <th>Keahlian</th> -->
+                                        <!-- <th>Alamat</th> -->
                                         <th>Phone</th>
+                                        <th class="no-print">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for pelamar in pelamars %}
                                     <tr>
-                                        <td>{{ forloop.counter }}</td>
+                                        <td style="width: 7px">{{ forloop.counter }}</td>
+                                        <td class="nowrap-cell nowrap-cell:hover">{{ pelamar.perteker.open_poss }}</td>
                                         <td>{{ pelamar.nama }}</td>
-                                        <td>{{ pelamar.gender }}</td>
-                                        <td>{{ pelamar.usia }}</td>
-                                        <td>{{ pelamar.pendidikan }}</td>
-                                        <td>{{ pelamar.jurusan }}</td>
-                                        <td>{{ pelamar.almamater }}</td>
-                                        <td>{{ pelamar.pengalaman }}</td>
-                                        <td>{{ pelamar.keahlian }}</td>
-                                        <td>{{ pelamar.perteker.open_poss }}</td>
-                                        <td>{{ pelamar.alamat }}</td>
-                                        <td>{{ pelamar.phone }}</td>
-                                        <td>
-                                            <a href="{% url 'recruitment:update_pelamar' pelamar.id %}" class="btn btn-xs btn-warning"
-                                                style="width: 50px">Edit</a>
+                                        <td style="width: 7px">
+                                            {% if pelamar.gender == 'Laki-laki' %}
+                                                L
+                                            {% else %}
+                                                P
+                                            {% endif %}
+                                        </td>
+                                        <td style="width: 10px">{{ pelamar.usia }}</td>
+                                        <td class="nowrap-cell nowrap-cell:hover">{{ pelamar.pendidikan }}</td>
+                                        <td class="nowrap-cell nowrap-cell:hover">{{ pelamar.jurusan }}</td>
+                                        <td class="nowrap-cell nowrap-cell:hover">{{ pelamar.almamater }}</td>
+                                        <td style="width: 10px">{{ pelamar.pengalaman }}</td>
+                                        <!-- <td class="nowrap-cell nowrap-cell:hover">{{ pelamar.keahlian }}</td> -->
+                                        <!-- <td class="nowrap-cell nowrap-cell:hover">{{ pelamar.alamat }}</td> -->
+                                        <td class="nowrap-cell nowrap-cell:hover">{{ pelamar.phone }}</td>
+                                        <td class="no-print">
+                                            <a href="{% url 'recruitment:update_pelamar' pelamar.id %}" class="btn btn-warning"
+                                                style="width: 110px; color: white; margin: 2px;"><i class="fas fa-edit nav-icon"></i> Update</a>
                                             |
-                                            <a href="{% url 'recruitment:delete_pelamar' pelamar.id %}" class="btn btn-xs btn-danger"
-                                                style="width: 50px">Delete</a>
+                                            <a href="{% url 'recruitment:delete_pelamar' pelamar.id %}" onclick="return confirm('Yakin ingin menghapus data ini?');" class="btn btn-danger"
+                                                style="width: 110px; margin: 2px;"><i class="fas fa-trash nav-icon"></i> Delete</a>
                                         </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div class="col-md-3">
-        <div class="card card-default">
-            <div class="card-body">
-                <label for="">Penjelasan
-                </label>
-                <p>
-                    <ul>
-                        <li>
-                            Anda dapat menambahkan transaksi baru dengan klik tombol <strong>Add Transaksi</strong>.
-                        </li>
-                        <br>
-                        <li>
-                            Anda dapat memfilter berdasarkan Item, User, Date ataupun Transaction Type dengan mengetik langsung pada field <strong>Search</strong>.
-                        </li>
-                        <br>
-                        <li>
-                            Anda dapat melakukan export list transaction dengan klik tombol <strong>Export</strong>.
-                        </li>
-                        <br>
-                        <li>
-                            Anda dapat mencetak list transaction dengan klik tombol <strong>Print</strong>.
-                        </li>
-                    </ul>
-                </p>
-            </div>
-        </div>
-    </div> -->
 </div>
 {% endblock content %}
   

@@ -1,19 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% load static %}
 <h2>{{ title }}</h2>
 <form action="" method="post">
     {% csrf_token %}
-
-    <label for="psikotest">Psikotest : </label><br>  
-    <select name="psikotest" id="psikotest">
-        <option value="" {% if not seleksi.nilai_psikotest %}selected{% endif %}>------ Pilih Nilai ------</option>
-        
-        {% for pil in pil_nilai %}
-            <option value="{{ pil }}" 
-            {% if seleksi.nilai_psikotest == pil %}selected{% endif %}>
-                    {{ pil }}                    
-            </option>
-        {% endfor %}
+    <div class="form-group">
+        <label for="psikotest">Psikotest : </label><br>  
+        <select name="psikotest" id="psikotest" class="form-control">
+            <option value="" {% if not seleksi.nilai_psikotest %}selected{% endif %}>------ Pilih Nilai ------</option>
             
-    </select>
+            {% for pil in pil_nilai %}
+                <option value="{{ pil }}" 
+                {% if seleksi.nilai_psikotest == pil %}selected{% endif %}>
+                        {{ pil }}                    
+                </option>
+            {% endfor %}
+                
+        </select>
+    </div>
     <br>
     <br>
 
@@ -55,3 +60,126 @@
     <br><br>
     <button type="submit">simpan</button>
 </form>
+
+
+
+
+<!-- {% block js %} -->
+<!-- <script type="text/javascript">
+    function openDepartemenPopup() {
+        window.open(" url asset:asset_popup ", "AssetPopup", "width=600, height=400");
+    }
+
+    function addNewItem(itemId, itemBrand) {
+        // document.getElementById('id_asset').value = assetId;
+        // document.getElementById("asset").innerText = assetNumber;
+        //MEMBUAT OPSI BARU UNTUK SELECT FORM
+        var select = document.getElementById("item");
+        var option = document.createElement("option");
+        option.text = itemBrand;
+        option.value = itemId;
+        option.selected = true;
+        select.add(option);
+    }
+</script> -->
+<!-- {% endblock js %} -->
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <div class="card card-default">
+            <div class="card-body">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-error{% endif %}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ forms.non_field_errors }}
+                    
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="psikotest">Psikotest : </label><br>  
+                                <select name="psikotest" id="psikotest" class="form-control">
+                                    <option value="" {% if not seleksi.nilai_psikotest %}selected{% endif %}>------ Pilih Nilai ------</option>
+                                    
+                                    {% for pil in pil_nilai %}
+                                        <option value="{{ pil }}" 
+                                        {% if seleksi.nilai_psikotest == pil %}selected{% endif %}>
+                                                {{ pil }}                    
+                                        </option>
+                                    {% endfor %}
+                                        
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="interview">Interview : </label><br>
+                                <select name="interview" id="interview" class="form-control">
+                                    <option value="" {% if not seleksi.nilai_interview %}selected{% endif %}> ------ Pilih Nilai ------</option>
+                                    {% for pil in pil_nilai %}
+                                        <option value="{{ pil }}"
+                                            {% if seleksi.nilai_interview == pil %}selected{% endif %}>
+                                                {{ pil }} 
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="status">Status : </label><br>
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="" 
+                                        {% if not seleksi.status %}
+                                            selected
+                                        {% endif %}
+                                            >Belum Lengkap</option>
+                                    
+                                        {% for pil in pil_status %}
+                                        <option value="{{ pil }}"
+                                            {% if seleksi.status == pil %}selected{% endif %}>
+                                                {{ pil }} 
+                                        </option>
+                                            <!-- <input type="radio" name="status" id="status" value="{{ pil }}" {% if seleksi.status == pil %} checked {% endif %}>{{ pil }}   -->
+                                        {% endfor %}
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="catatan">Catatan : </label>
+                                <input type="text" name="catatan" id="catatan" value="{{ seleksi.catatan }}" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                   
+
+                    <input type="submit" class="btn btn-success btn-sm" value="Save" style="width: 100px">
+                    <!-- <button type="reset" class="btn btn-secondary btn-sm" style="width: 100px">Clear</button> -->
+                    <a href="{% url 'recruitment:list_seleksi' %}" class="btn btn-danger btn-sm" style="width: 100px">Cancel</a>
+
+                    <!-- Menampilkan field tambahan dari department -->
+
+                </form>
+                
+            </div>
+        </div>
+    </div>
+     
+
+</div>
+<script src="{% static 'jquery.js' %}"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+{% endblock %} -->

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script>
+    $(document).ready(function () {
+        $('#filter-input').on('keyup', function () {
+            var value = $(this).val().toLowerCase();
+            $('table tbody tr').filter(function () {
+                var rowText = $(this).text().toLowerCase();  // Ambil semua teks dalam baris
+                $(this).toggle(rowText.indexOf(value) > -1); // Tampilkan jika cocok
+            });
+        });
+    });
+</script>
+<div class="row">
+    <div class="col-md">
+        <div class="card card-default">
+            <div class="card-body">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="content">
+                    <div class="card-body">
+                        <div class="dataTables_wrapper dt-bootstraps4">
+                            <div class="row no-print mb-2">
+                                <div class="col-md">
+                                    <!-- <div class="form-group"> -->
+                                        <a href="{% url 'recruitment:create_user' %}" class="btn btn-primary btn-md"
+                                            style="width: 150px"> <i class="fas fa-plus-square nav-icon"></i> Tambah
+                                        </a>
+                                    <!-- </div> -->
+                                </div>
+                                <div class="col-md">
+                                    <div class="d-flex justify-content-end md-2">
+                                        <!-- <label for="filter-input">Filter:</label> -->
+                                        <input type="text" id="filter-input" class="form-control" placeholder="Search" style="margin: 2px;">
+                                    
+                                        <a href="{% url 'recruitment:export_excel_user' %}" class="btn btn-secondary btn-md"
+                                            style="width: 150px; margin: 2px;">
+                                            <i class="fas fa-file-excel nav-icon"></i> Export
+                                        </a>
+                                        <a href="" class="btn btn-secondary btn-md" onclick="printSection()" style="width: 150px; margin: 2px;">
+                                            <i class="fas fa-print nav-icon"></i> Print
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <table class="table table-hover table-bordered table-striped dataTable dtr-inline" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10px">No</th>
+                                        <th>Username</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Departemen</th>
+                                        <th>Role</th>
+                                        <th class="no-print">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.first_name }}</td>
+                                        <td>{{ user.last_name }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.departemen }}</td>
+                                        <td>{{ user.role }}</td>
+                                        <td class="no-print">
+                                            <a href="{% url 'recruitment:update_user' user.id %}" class="btn btn-warning"
+                                                style="width: 100px; color: white; margin: 2px;"><i class="fas fa-edit nav-icon"></i> Update</a>
+                                            |
+                                            <a href="{% url 'recruitment:delete_user' user.id %}" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?');"
+                                                style="width: 100px"><i class="fas fa-trash nav-icon"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock content %}

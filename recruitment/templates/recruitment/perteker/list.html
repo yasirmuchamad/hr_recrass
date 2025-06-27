@@ -2,89 +2,109 @@
 
 
 {% block content %}
+<script>
+    $(document).ready(function () {
+        $('#filter-input').on('keyup', function () {
+            var value = $(this).val().toLowerCase();
+            $('table tbody tr').filter(function () {
+                var rowText = $(this).text().toLowerCase();  // Ambil semua teks dalam baris
+                $(this).toggle(rowText.indexOf(value) > -1); // Tampilkan jika cocok
+            });
+        });
+    });
+</script>
 <div class="row">
-  <div class="col-md">
-    <div class="card card-default">
-      <div class="card-body">
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
-                {{ message }}
+    <div class="col-md">
+        <div class="card card-default">
+            <div class="card-body">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
+                <div class="content">
+                    <div class="card-body">
+                        <div class="dataTables_wrapper dt-bootstraps4">
+                            <div class="row no-print">
+                                <div class="col-md mb-2">
+                                    <!-- <div class="form-group"> -->
+                                        <a href="{% url 'recruitment:create_perteker' %}" class="btn btn-primary"
+                                            style="width: 150px;"> <i class="fas fa-plus-square nav-icon"></i> Tambah
+                                        </a>
+                                    <!-- </div> -->
+                                </div>
+                                <div class="col-md">
+                                    <div class="d-flex justify-content-end md-2">
+                                        <!-- <label for="filter-input">Filter:</label> -->
+                                        <input type="text" id="filter-input" class="form-control" placeholder="Search" style="margin: 2px; width: 300px;">
+                                    
+                                        <a href="{% url 'recruitment:export_excel_perteker' %}" class="btn btn-secondary"
+                                            style="width: 150px; margin: 2px;">
+                                            <i class="fas fa-file-excel nav-icon"></i> Export
+                                        </a>
+                                        <a href="" class="btn btn-secondary" onclick="printSection()" style="width: 150px; margin: 2px;">
+                                            <i class="fas fa-print nav-icon"></i> Print
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-striped dataTable dtr-inline" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                    <th style="width: 5px">No</th>
+                                    <!-- <th>User</th> -->
+                                    <th>Tanggal</th>
+                                    <th>Posisi</th>
+                                    <th style="width: 10px">Gender</th>
+                                    <th>Usia Max</th>
+                                    <th>Pdk Min</th>
+                                    <th>Jurusan</th>
+                                    <th>Pengalaman</th>
+                                    <th style="width: 10px">Qty</th>
+                                    <th class="no-print">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in pertekers %}
+                                    <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <!-- <td>{{ ptk.user.username }}</td> -->
+                                    <td>{{ p.tanggal|date:"Y-m-d" }}</td>
+                                    <td>{{ p.open_poss }}</td>
+                                    <td>
+                                        {% if p.gender == 'Laki-laki' %}
+                                            L
+                                        {% elif p.gender == 'Perempuan' %}
+                                            p
+                                        {% else %}
+                                            L/P
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ p.batas_usia }}</td>
+                                    <td>{{ p.pendidikan_min }}</td>
+                                    <td class="nowrap-cell nowrap-cell:hover">{{ p.jurusan }}</td>
+                                    <td>{{ p.pengalaman }}</td>
+                                    <td>{{ p.jumlah }}</td>
+                                    <td class="no-print">
+                                        <a href="{% url 'recruitment:update_perteker' p.id %}" class="btn btn-md btn-warning"
+                                            style="width: 120px; color:white"><i class="fas fa-edit nav-icon"></i> Update</a>
+                                        |
+                                        <a href="{% url 'recruitment:delete_perteker' p.id %}" onclick="return confirm('Yakin ingin menghapus data ini?');" class="btn btn-md btn-danger"
+                                            style="width: 120px"><i class="fas fa-trash nav-icon"></i> Delete</a>
+                                    </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>    
+                        </div>
+                    </div>
+                </div>
             </div>
-          {% endfor %}
-        {% endif %}
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-              <a href="{% url 'recruitment:create_perteker' %}" class="btn btn-primary btn-md"
-              style="width: 180px">Tambah PTK
-              </a>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <!-- <label for="filter-input">Filter:</label> -->
-              <input type="text" id="filter-input" class="form-control" placeholder="Search">
-            </div>
-          </div>
-          <div class="col-md d-flex justify-content-end">
-            <div class="form-group">
-              <a href="{% url 'recruitment:list_departemen' %}" class="btn btn-info btn-md"
-                    style="width: 40px">
-                <i class="fas fa-file-excel nav-icon"></i>
-              </a>
-              <a href="" class="btn btn-secondary btn-md" onclick="printSection()" style="width: 40px ">
-                <i class="fas fa-print nav-icon"></i>
-              </a>
-            </div>
-          </div>
-          <div class="content">
-            <div class="card-body p-0">
-              <table class="table table-hover" style="text-align: center;">
-                <thead>
-                  <tr>
-                    <th style="width: 5px">No</th>
-                    <!-- <th>User</th> -->
-                    <th>Tanggal</th>
-                    <th>Posisi</th>
-                    <th style="width: 10px">Gender</th>
-                    <th>Usia Max</th>
-                    <th>Pdk Min</th>
-                    <th>Jurusan</th>
-                    <th>Pengalaman</th>
-                    <th style="width: 10px">Qty</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for p in pertekers %}
-                  <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <!-- <td>{{ ptk.user.username }}</td> -->
-                    <td>{{ p.tanggal|date:"Y-m-d" }}</td>
-                    <td>{{ p.open_poss }}</td>
-                    <td>{{ p.gender }}</td>
-                    <td>{{ p.batas_usia }}</td>
-                    <td>{{ p.pendidikan_min }}</td>
-                    <td>{{ p.jurusan }}</td>
-                    <td>{{ p.pengalaman }}</td>
-                    <td>{{ p.jumlah }}</td>
-                    <td>
-                      <a href="{% url 'recruitment:update_perteker' p.id %}" class="btn btn-xs btn-warning"
-                          style="width: 50px; color:white">Edit</a>
-                      |
-                      <a href="{% url 'recruitment:delete_perteker' p.id %}" class="btn btn-xs btn-danger"
-                          style="width: 50px">Delete</a>
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
-      
+        </div>
     </div>
-  </div>
 </div>
 
 {% endblock content %}

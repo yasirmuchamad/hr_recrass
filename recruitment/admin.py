@@ -41,8 +41,8 @@ class PertekerAdmin(admin.ModelAdmin):
 
 @admin.register(Pelamar)
 class PelamarAdmin(admin.ModelAdmin):
-    list_display = ['nama', 'gender', 'usia', 'pendidikan', 'almamater', 'jurusan', 'pengalaman', 'keahlian', 'perteker', 'alamat', 'phone']
+    list_display = ['nama', 'gender', 'usia', 'pendidikan', 'almamater', 'jurusan', 'pengalaman', 'keahlian', 'perteker', 'alamat', 'phone','tanggal']
 
 @admin.register(Seleksi)
 class SeleksiAdmin(admin.ModelAdmin):
-    list_display = ['pelamar', 'nilai_psikotest', 'nilai_interview', 'status']
+    list_display = ['pelamar', 'nilai_psikotest', 'nilai_interview', 'status', 'tanggal']
